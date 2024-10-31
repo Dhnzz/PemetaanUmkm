@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JenisUsaha;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class JenisUsahaController extends Controller
 {
@@ -12,7 +13,9 @@ class JenisUsahaController extends Controller
      */
     public function index()
     {
-        return view('JenisUsaha.index');
+        $title = 'Jenis Usaha';
+        $jenisUsaha = JenisUsaha::all();
+        return view('JenisUsaha.index', compact('title','jenisUsaha'));
     }
 
     /**
@@ -20,7 +23,9 @@ class JenisUsahaController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Jenis Usaha';
+        $subtitle = 'Tambah Jenis Usaha';
+        return view('JenisUsaha.create', compact('title','subtitle'));
     }
 
     /**
@@ -28,7 +33,17 @@ class JenisUsahaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ],[
+            'name.required' => 'Harap isi kolom nama jenis usaha'
+        ]);
+
+        $jenisUsaha = JenisUsaha::create([
+            'name' => $request->input('name'),
+            'slug' => Str::lower($request->input('name'))
+        ]);
+        return redirect()->route('jenis-usaha.index')->with('success','Berhasil menambahkan jenis usaha');
     }
 
     /**
@@ -36,7 +51,9 @@ class JenisUsahaController extends Controller
      */
     public function show(JenisUsaha $jenisUsaha)
     {
-        //
+        $title = 'Jenis Usaha';
+        $subtitle = 'Detail Jenis Usaha';
+        return view('JenisUsaha.show', compact('jenisUsaha','title','subtitle'));
     }
 
     /**
@@ -44,7 +61,9 @@ class JenisUsahaController extends Controller
      */
     public function edit(JenisUsaha $jenisUsaha)
     {
-        //
+        $title = 'Jenis Usaha';
+        $subtitle = 'Edit Jenis Usaha';
+        return view('JenisUsaha.edit', compact('jenisUsaha','title','subtitle'));
     }
 
     /**
@@ -52,7 +71,17 @@ class JenisUsahaController extends Controller
      */
     public function update(Request $request, JenisUsaha $jenisUsaha)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ],[
+            'name.required' => 'Harap isi kolom nama jenis usaha'
+        ]);
+
+        $jenisUsaha->update([
+            'name' => $request->input('name'),
+            'slug' => Str::lower($request->input('name'))
+        ]);
+        return redirect()->route('jenis-usaha.index')->with('success', 'Berhasil mengubah jenis usaha');
     }
 
     /**
@@ -60,6 +89,7 @@ class JenisUsahaController extends Controller
      */
     public function destroy(JenisUsaha $jenisUsaha)
     {
-        //
+        $jenisUsaha->delete();
+        return redirect()->route('jenis-usaha.index')->with('success', 'Berhasil menghapus jenis usaha');
     }
 }

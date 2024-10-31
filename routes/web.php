@@ -9,7 +9,5 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::prefix('dashboard')->group(function(){
-    Route::prefix('/jenis-usaha')->group(function(){
-        Route::get('/', [JenisUsahaController::class, 'index'])->name('jenis-usaha.index');
-    });
+    Route::resource('jenis-usaha', JenisUsahaController::class);
 });
