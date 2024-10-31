@@ -41,7 +41,7 @@ class JenisUsahaController extends Controller
 
         $jenisUsaha = JenisUsaha::create([
             'name' => $request->input('name'),
-            'slug' => Str::lower($request->input('name'))
+            'slug' => Str::slug($request->input('name'))
         ]);
         return redirect()->route('jenis-usaha.index')->with('success','Berhasil menambahkan jenis usaha');
     }
@@ -79,7 +79,7 @@ class JenisUsahaController extends Controller
 
         $jenisUsaha->update([
             'name' => $request->input('name'),
-            'slug' => Str::lower($request->input('name'))
+            'slug' => Str::slug($request->input('name'))
         ]);
         return redirect()->route('jenis-usaha.index')->with('success', 'Berhasil mengubah jenis usaha');
     }

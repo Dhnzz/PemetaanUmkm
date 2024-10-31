@@ -23,7 +23,9 @@ return new class extends Migration
             $table->year('tahun_berdiri');
             $table->string('no_hp');
             $table->string('tenaga_kerja');
-            $table->string('pembayaran_digital');
+            $table->boolean('pembayaran_digital')->default(false);
+            $table->string('long');
+            $table->string('lat');
             $table->timestamps();
         });
     }

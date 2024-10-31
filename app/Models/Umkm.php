@@ -19,6 +19,8 @@ class Umkm extends Model
         'no_hp',
         'tenaga_kerja',
         'pembayaran_digital',
+        'long',
+        'lat',
     ];
 
     public function jenis_usaha(): BelongsTo
