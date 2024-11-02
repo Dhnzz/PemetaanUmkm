@@ -36,6 +36,7 @@ class UmkmController extends Controller
         // dd($request->lat);
         $request->validate(
             [
+                'name' => 'required',
                 'nib' => 'required|numeric', // Ensure 13-digit NIB
                 'sku' => 'required|mimes:pdf|max:2048', // Limit file size to 1MB
                 'ktp' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
@@ -51,6 +52,7 @@ class UmkmController extends Controller
                 'lat' => 'required', // Optional latitude
             ],
             [
+                'name.required' => 'Nama usaha wajib diisi.',
                 'nib.required' => 'Nomor Induk Berusaha (NIB) wajib diisi.',
                 'nib.numeric' => 'NIB harus berupa angka.',
                 'sku.required' => 'Silakan unggah file SKU.',
@@ -101,6 +103,7 @@ class UmkmController extends Controller
         $kk->move(public_path('uploads/KK'), $kkName);
 
         Umkm::create([
+            'name' => $request->input('name'),
             'nib' => $request->input('nib'),
             'sku' => $skuName,
             'ktp' => $ktpName,

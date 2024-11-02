@@ -48,7 +48,7 @@
                     @endphp
                     @foreach ($jenisUsaha as $item)
                         <tr>
-                            <td>{{ $no }}</td>
+                            <td>{{ $no++ }}</td>
                             <td>{{ $item->name }}</td>
                             <td>
                                 <div class="d-flex flex-row">

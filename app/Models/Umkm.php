@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo};
 class Umkm extends Model
 {
     protected $fillable = [
+        'name',
         'nib',
         'sku', //File
         'ktp', //File

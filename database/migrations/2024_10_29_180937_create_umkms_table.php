@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('umkms', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('nib');
             $table->string('sku');
             $table->string('ktp');

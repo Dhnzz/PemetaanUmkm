@@ -24,6 +24,16 @@
                 @csrf
                 <!-- NIB -->
                 <div class="mb-3">
+                    <label for="modal_awal" class="form-label">Nama Usaha</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" id="name"
+                        name="name">
+                    @error('name')
+                        <small class="invalid-feedback">
+                            {{ $message }}
+                        </small>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="modal_awal" class="form-label">Nomor Induk Berusaha</label>
                     <input type="number" class="form-control @error('nib') is-invalid @enderror" value="{{old('nib')}}" id="nib"
                         name="nib">
