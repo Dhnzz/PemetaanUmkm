@@ -52,7 +52,7 @@
                             <td>{{ $item->name }}</td>
                             <td>
                                 <div class="d-flex flex-row">
-                                    <a href="{{ route('jenis-usaha.show', $item->id) }}"
+                                    <a href="{{ route('umkm.show', $item->id) }}"
                                         class="btn btn-sm btn-primary me-2">Detail</a>
                                     <form method="POST" action="{{ route('jenis-usaha.destroy', $item->id) }}"
                                         enctype="multipart/form-data">
