@@ -42,7 +42,7 @@ class UmkmController extends Controller
                 'ktp' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
                 'kk' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
                 'foto_usaha' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
-                'modal_awal' => 'required|numeric|min:1000', // Minimum initial capital
+                'modal_awal' => 'required', // Minimum initial capital
                 'jenis_usaha_id' => 'required|exists:jenis_usahas,id', // Ensure valid foreign key
                 'tahun_berdiri' => 'required|date_format:Y', // Validate year format
                 'no_hp' => 'required|numeric|digits_between:10,13', // Optional phone number with specific length
@@ -68,8 +68,6 @@ class UmkmController extends Controller
                 'foto_usaha.mimes' => 'Format file foto usaha yang diizinkan hanya PNG, JPG, atau JPEG.',
                 'foto_usaha.max' => 'Ukuran file foto usaha maksimal 2 MB.',
                 'modal_awal.required' => 'Jumlah modal awal wajib diisi.',
-                'modal_awal.numeric' => 'Jumlah modal awal harus berupa angka.',
-                'modal_awal.min' => 'Jumlah modal awal minimal Rp1.000.000.',
                 'jenis_usaha_id.required' => 'Jenis usaha harus dipilih.',
                 'jenis_usaha_id.exists' => 'Jenis usaha yang dipilih tidak valid.',
                 'tahun_berdiri.required' => 'Tahun berdiri usaha wajib diisi.',
@@ -102,6 +100,9 @@ class UmkmController extends Controller
         $kkName = time() . '-' . rand(1, 100) . '-' . $request->input('nib') . '.' . $kk->extension();
         $kk->move(public_path('uploads/KK'), $kkName);
 
+        $modalAwal = str_replace(['Rp. ','.'], '', $request->input('modal_awal'));
+        $modalAwal = (float) $modalAwal;
+
         Umkm::create([
             'name' => $request->input('name'),
             'nib' => $request->input('nib'),
@@ -109,12 +110,12 @@ class UmkmController extends Controller
             'ktp' => $ktpName,
             'kk' => $kkName,
             'foto_usaha' => $foto_usaha_name,
-            'modal_awal' => $request->input('modal_awal'),
+            'modal_awal' => $modalAwal,
             'jenis_usaha_id' => $request->input('jenis_usaha_id'),
             'tahun_berdiri' => $request->input('tahun_berdiri'),
             'no_hp' => $request->input('no_hp'),
             'tenaga_kerja' => $request->input('tenaga_kerja'),
-            'pembayaran_digital' => $request->input('pembayaran_digital') == null ? 0 : 1,
+            'pembayaran_digital' => $request->has('pembayaran_digital') ? 1 : 0,
             'long' => $request->input('lng'),
             'lat' => $request->input('lat'),
         ]);

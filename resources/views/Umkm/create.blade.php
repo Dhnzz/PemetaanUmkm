@@ -25,8 +25,8 @@
                 <!-- NIB -->
                 <div class="mb-3">
                     <label for="modal_awal" class="form-label">Nama Usaha</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" id="name"
-                        name="name">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}" id="name" name="name">
                     @error('name')
                         <small class="invalid-feedback">
                             {{ $message }}
@@ -35,8 +35,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="modal_awal" class="form-label">Nomor Induk Berusaha</label>
-                    <input type="number" class="form-control @error('nib') is-invalid @enderror" value="{{old('nib')}}" id="nib"
-                        name="nib">
+                    <input type="number" class="form-control @error('nib') is-invalid @enderror"
+                        value="{{ old('nib') }}" id="nib" name="nib">
                     @error('nib')
                         <small class="invalid-feedback">
                             {{ $message }}
@@ -47,8 +47,8 @@
                     <!-- SKU -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="sku" class="form-label">File SKU (PDF, max 1 MB)</label>
-                        <input type="file" class="form-control @error('sku') is-invalid @enderror" value="{{old('sku')}}" id="sku"
-                            name="sku">
+                        <input type="file" class="form-control @error('sku') is-invalid @enderror"
+                            value="{{ old('sku') }}" id="sku" name="sku">
                     </div>
                     @error('sku')
                         <small class="invalid-feedback">
@@ -58,8 +58,8 @@
                     <!-- Foto Usaha -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="foto_usaha" class="form-label">Foto Usaha (PNG, JPG, JPEG, max 2 MB)</label>
-                        <input type="file" class="form-control @error('foto_usaha') is-invalid @enderror" value="{{old('foto_usaha')}}" id="foto_usaha"
-                            name="foto_usaha">
+                        <input type="file" class="form-control @error('foto_usaha') is-invalid @enderror"
+                            value="{{ old('foto_usaha') }}" id="foto_usaha" name="foto_usaha">
                     </div>
                     @error('foto_usaha')
                         <small class="invalid-feedback">
@@ -71,8 +71,8 @@
                     <!-- KTP -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="ktp" class="form-label">Fotokopi KTP (PNG, JPG, JPEG, max 2 MB)</label>
-                        <input type="file" class="form-control @error('ktp') is-invalid @enderror"  value="{{old('ktp')}}" id="ktp"
-                            name="ktp">
+                        <input type="file" class="form-control @error('ktp') is-invalid @enderror"
+                            value="{{ old('ktp') }}" id="ktp" name="ktp">
                     </div>
                     @error('ktp')
                         <small class="invalid-feedback">
@@ -82,8 +82,8 @@
                     <!-- KK -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="kk" class="form-label">Fotokopi Kartu Keluarga (PNG, JPG, JPEG, max 2 MB)</label>
-                        <input type="file" class="form-control @error('kk') is-invalid @enderror" value="{{old('kk')}}" id="kk"
-                            name="kk">
+                        <input type="file" class="form-control @error('kk') is-invalid @enderror"
+                            value="{{ old('kk') }}" id="kk" name="kk">
                     </div>
                     @error('kk')
                         <small class="invalid-feedback">
@@ -95,8 +95,8 @@
                     <!-- Jenis Usaha -->
                     <div class="col-12 col-sm-9 mb-3">
                         <label for="jenis_usaha_id" class="form-label">Jenis Usaha</label>
-                        <select class="form-select @error('jenis_usaha_id') is-invalid @enderror" value="{{old('jenis_usaha_id')}}" id="jenis_usaha_id"
-                            name="jenis_usaha_id">
+                        <select class="form-select @error('jenis_usaha_id') is-invalid @enderror"
+                            value="{{ old('jenis_usaha_id') }}" id="jenis_usaha_id" name="jenis_usaha_id">
                             <option value="">Pilih jenis usaha...</option>
                             @foreach ($jenisUsaha as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -111,8 +111,8 @@
                     <!-- Tahun Berdiri -->
                     <div class="col-12 col-sm-3 mb-3">
                         <label for="tahun_berdiri" class="form-label">Tahun Berdiri</label>
-                        <input type="number" class="form-control @error('tahun_berdiri') is-invalid @enderror" value="{{old('tahun_berdiri')}}"
-                            id="tahun_berdiri" name="tahun_berdiri" placeholder="2023">
+                        <input type="number" class="form-control @error('tahun_berdiri') is-invalid @enderror"
+                            value="{{ old('tahun_berdiri') }}" id="tahun_berdiri" name="tahun_berdiri" placeholder="2023">
                     </div>
                     @error('tahun_berdiri')
                         <small class="invalid-feedback">
@@ -123,8 +123,8 @@
                 <!-- Modal Awal -->
                 <div class="mb-3">
                     <label for="modal_awal" class="form-label">Modal Awal (min Rp1.000)</label>
-                    <input type="number" class="form-control @error('modal_awal') is-invalid @enderror" value="{{old('modal_awal')}}" id="modal_awal"
-                        name="modal_awal">
+                    <input type="text" class="form-control @error('modal_awal') is-invalid @enderror"
+                        value="{{ old('modal_awal') }}" id="modal_awal" name="modal_awal">
                 </div>
                 @error('modal_awal')
                     <small class="invalid-feedback">
@@ -135,8 +135,8 @@
                     <!-- No HP -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="no_hp" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror" value="{{old('no_hp')}}" id="no_hp"
-                            name="no_hp">
+                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror"
+                            value="{{ old('no_hp') }}" id="no_hp" name="no_hp">
                     </div>
                     @error('no_hp')
                         <small class="invalid-feedback">
@@ -146,8 +146,8 @@
                     <!-- Tenaga Kerja -->
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="tenaga_kerja" class="form-label">Jumlah Tenaga Kerja</label>
-                        <input type="number" class="form-control @error('tenaga_kerja') is-invalid @enderror" value="{{old('tenaga_kerja')}}"
-                            id="tenaga_kerja" name="tenaga_kerja" min="1">
+                        <input type="number" class="form-control @error('tenaga_kerja') is-invalid @enderror"
+                            value="{{ old('tenaga_kerja') }}" id="tenaga_kerja" name="tenaga_kerja" min="1">
                     </div>
                     @error('tenaga_kerja')
                         <small class="invalid-feedback">
@@ -157,8 +157,8 @@
                 </div>
                 <!-- Pembayaran Digital -->
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input @error('pembayaran_digital') is-invalid @enderror" value="{{old('pembayaran_digital')}}"
-                        id="pembayaran_digital" name="pembayaran_digital">
+                    <input type="checkbox" class="form-check-input @error('pembayaran_digital') is-invalid @enderror"
+                        value="{{ old('pembayaran_digital') }}" id="pembayaran_digital" name="pembayaran_digital" value="1">
                     <label class="form-check-label" for="pembayaran_digital">Menggunakan Pembayaran Digital</label>
                 </div>
                 <div class="col-12 mb-3">
@@ -218,5 +218,24 @@
 
             marker = L.marker([lat, lng]).addTo(map)
         })
+    </script>
+    <script>
+        $('#modal_awal').keyup(function (e) {
+            var angka = $(this).val().replace(/Rp. /, '').replace(/\./g, '');
+            angka = angka.replace(/\./g, '');
+            var number_string = angka.toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            $(this).val('Rp. ' + rupiah);
+        });
     </script>
 @endpush
