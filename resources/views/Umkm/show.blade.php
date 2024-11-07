@@ -1,4 +1,11 @@
 @extends('layouts.layout')
+@push('css')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+@endpush
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -12,25 +19,27 @@
                 </ol>
             </nav>
 
-            <div class="row justify-content-center align-items-center g-2 mb-2">
-                <div class="col-5 col-sm-3">Nama UMKM</div>
-                <div class="col-auto">:</div>
-                <div class="col">{{ $umkm->name }}</div>
-            </div>
-            <div class="row justify-content-center align-items-center g-2 mb-2">
-                <div class="col-5 col-sm-3">Nomor Induk Berusaha</div>
-                <div class="col-auto">:</div>
-                <div class="col">{{ $umkm->nib }}</div>
-            </div>
-            <div class="row justify-content-center align-items-center g-2 mb-2">
-                <div class="col-5 col-sm-3">Jenis Usaha</div>
-                <div class="col-auto">:</div>
-                <div class="col">{{ $umkm->jenis_usaha->name }}</div>
-            </div>
-            <div class="row justify-content-center align-items-center g-2 mb-2">
-                <div class="col-5 col-sm-3">Tahun Berdiri</div>
-                <div class="col-auto">:</div>
-                <div class="col">{{ $umkm->tahun_berdiri }}</div>
+            <div class="d-flex flex-column col-sm-8 col-12">
+                <div class="row justify-content-center align-items-center g-2 mb-2">
+                    <div class="col-5 col-sm-3">Nama UMKM</div>
+                    <div class="col-auto">:</div>
+                    <div class="col">{{ $umkm->name }}</div>
+                </div>
+                <div class="row justify-content-center align-items-center g-2 mb-2">
+                    <div class="col-5 col-sm-3">Nomor Induk Berusaha</div>
+                    <div class="col-auto">:</div>
+                    <div class="col">{{ $umkm->nib }}</div>
+                </div>
+                <div class="row justify-content-center align-items-center g-2 mb-2">
+                    <div class="col-5 col-sm-3">Jenis Usaha</div>
+                    <div class="col-auto">:</div>
+                    <div class="col">{{ $umkm->jenis_usaha->name }}</div>
+                </div>
+                <div class="row justify-content-center align-items-center g-2 mb-2">
+                    <div class="col-5 col-sm-3">Tahun Berdiri</div>
+                    <div class="col-auto">:</div>
+                    <div class="col">{{ $umkm->tahun_berdiri }}</div>
+                </div>
             </div>
             <hr class="border border-1 opacity-75">
             <div class="d-flex flex-column flex-sm-row justify-content-start">
@@ -82,9 +91,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-shrink-1">
-                    <h1>Hello world</h1>
-                </div>
+            </div>
+
+            <div class="col-12 mb-3">
+                <div id="map-show" style="height: 500px; width: 100%" class="rounded"></div>
             </div>
 
             {{-- SKU MODAL --}}
@@ -175,35 +185,37 @@
                 </div>
             </div>
 
-            <a href="{{ route('jenis-usaha.edit', $umkm->id) }}" class="btn btn-warning text-white">Edit</a>
+            <a href="{{ route('umkm.edit', $umkm->id) }}" class="btn btn-warning text-white">Edit</a>
         </div>
     </div>
 @endsection
 @push('script')
-    <!-- Optional: Place to the bottom of scripts -->
-    {{-- <script>
-        const myModal = new bootstrap.Modal(
-            document.getElementById("modalId"),
-            options,
-        );
-        const ktpModal = new bootstrap.Modal(
-            document.getElementById("ktpModal"),
-            options,
-        )
-    </script> --}}
     <script>
+        var umkmData = @json($umkm);
+        var startLocation = [umkmData.lat, umkmData.long];
+        var map = L.map('map-show').setView(startLocation, 17);
+        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
+
+        var marker;
+        
+        marker = L.marker([umkmData.lat, umkmData.long]).addTo(map);
+
+
         var base = "{{ asset('uploads') }}"
         $(document).ready(function() {
             $('#pdfModal').click(function() {
                 var umkm = $(this).data('modal')
-
+                console.log(umkm.sku);
+                
                 $('#framePdf').attr('src', base + '/SKU/' + umkm.sku)
                 $('#skuModalTitle').text(
                     'Surat Keterangan Usaha Milik : ' + umkm.name
                 )
                 const pdfModal = new bootstrap.Modal(
                     $("#ktpModal"),
-                    options,
                 );
             })
 
@@ -216,7 +228,6 @@
                 )
                 const ktpModal = new bootstrap.Modal(
                     $("#ktpModal"),
-                    options,
                 );
             })
 
@@ -229,7 +240,6 @@
                 )
                 const kkModal = new bootstrap.Modal(
                     $("#kkModal"),
-                    options,
                 );
             })
 
@@ -242,16 +252,8 @@
                 )
                 const fotoUsahaModal = new bootstrap.Modal(
                     $("#fotoUsahaModal"),
-                    options,
                 );
             })
         })
-
-        var startLocation = [0.5648881614537785, 123.09171191998416];
-        var map = L.map('map').setView(startLocation, 17);
-        L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-        }).addTo(map);
     </script>
 @endpush

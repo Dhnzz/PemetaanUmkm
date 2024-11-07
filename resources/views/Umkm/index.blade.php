@@ -54,7 +54,7 @@
                                 <div class="d-flex flex-row">
                                     <a href="{{ route('umkm.show', $item->id) }}"
                                         class="btn btn-sm btn-primary me-2">Detail</a>
-                                    <form method="POST" action="{{ route('jenis-usaha.destroy', $item->id) }}"
+                                    <form method="POST" action="{{ route('umkm.destroy', $item->id) }}"
                                         enctype="multipart/form-data">
                                         @method('DELETE')
                                         @csrf

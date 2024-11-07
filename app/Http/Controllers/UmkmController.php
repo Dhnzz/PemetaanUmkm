@@ -139,9 +139,9 @@ class UmkmController extends Controller
     public function edit(Umkm $umkm)
     {
         $title = 'UMKM';
-        $subtitle = 'Detail UMKM';
+        $subtitle = 'Edit UMKM';
         $jenisUsaha = JenisUsaha::all();
-        return view('Umkm.create', compact('title', 'subtitle', 'jenisUsaha', 'umkm'));
+        return view('Umkm.edit', compact('title', 'subtitle', 'jenisUsaha', 'umkm'));
     }
 
     /**
@@ -153,11 +153,11 @@ class UmkmController extends Controller
             [
                 'name' => 'required',
                 'nib' => 'required|numeric', // Ensure 13-digit NIB
-                'sku' => 'required|mimes:pdf|max:2048', // Limit file size to 1MB
-                'ktp' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
-                'kk' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
-                'foto_usaha' => 'required|mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
-                'modal_awal' => 'required|numeric|min:1000', // Minimum initial capital
+                'sku' => 'mimes:pdf|max:2048', // Limit file size to 1MB
+                'ktp' => 'mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
+                'kk' => 'mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
+                'foto_usaha' => 'mimes:png,jpg,jpeg|max:2048', // Limit file size to 2MB
+                'modal_awal' => 'required', // Minimum initial capital
                 'jenis_usaha_id' => 'required|exists:jenis_usahas,id', // Ensure valid foreign key
                 'tahun_berdiri' => 'required|date_format:Y', // Validate year format
                 'no_hp' => 'required|numeric|digits_between:10,13', // Optional phone number with specific length
@@ -170,21 +170,15 @@ class UmkmController extends Controller
                 'name.required' => 'Nama usaha wajib diisi.',
                 'nib.required' => 'Nomor Induk Berusaha (NIB) wajib diisi.',
                 'nib.numeric' => 'NIB harus berupa angka.',
-                'sku.required' => 'Silakan unggah file SKU.',
                 'sku.mimes' => 'Format file SKU yang diizinkan hanya PDF.',
                 'sku.max' => 'Ukuran file SKU maksimal 1 MB.',
-                'ktp.required' => 'Silakan unggah fotokopi KTP.',
                 'ktp.mimes' => 'Format file KTP yang diizinkan hanya PNG, JPG, atau JPEG.',
                 'ktp.max' => 'Ukuran file KTP maksimal 2 MB.',
-                'kk.required' => 'Silakan unggah fotokopi Kartu Keluarga.',
                 'kk.mimes' => 'Format file Kartu Keluarga yang diizinkan hanya PNG, JPG, atau JPEG.',
                 'kk.max' => 'Ukuran file Kartu Keluarga maksimal 2 MB.',
-                'foto_usaha.required' => 'Silakan unggah foto usaha Anda.',
                 'foto_usaha.mimes' => 'Format file foto usaha yang diizinkan hanya PNG, JPG, atau JPEG.',
                 'foto_usaha.max' => 'Ukuran file foto usaha maksimal 2 MB.',
                 'modal_awal.required' => 'Jumlah modal awal wajib diisi.',
-                'modal_awal.numeric' => 'Jumlah modal awal harus berupa angka.',
-                'modal_awal.min' => 'Jumlah modal awal minimal Rp1.000.000.',
                 'jenis_usaha_id.required' => 'Jenis usaha harus dipilih.',
                 'jenis_usaha_id.exists' => 'Jenis usaha yang dipilih tidak valid.',
                 'tahun_berdiri.required' => 'Tahun berdiri usaha wajib diisi.',
@@ -199,6 +193,33 @@ class UmkmController extends Controller
                 'lat.required' => 'Harap pilih titik di map.',
             ],
         );
+
+        $sku = $this->fileHandler($request->file('sku'), 'uploads/SKU', $request->input('nib'), $umkm->sku);
+        $ktp = $this->fileHandler($request->file('ktp'), 'uploads/KTP', $request->input('nib'), $umkm->ktp);
+        $kk = $this->fileHandler($request->file('kk'), 'uploads/KK', $request->input('nib'), $umkm->kk);
+        $foto_usaha = $this->fileHandler($request->file('foto_usaha'), 'uploads/FotoUsaha', $request->input('nib'), $umkm->foto_usaha);
+
+        $modalAwal = str_replace(['Rp. ','.'], '', $request->input('modal_awal'));
+        $modalAwal = (float) $modalAwal;
+
+        $umkm->update([
+            'name' => $request->input('name'),
+            'nib' => $request->input('nib'),
+            'sku' => $sku,
+            'ktp' => $ktp,
+            'kk' => $kk,
+            'foto_usaha' => $foto_usaha,
+            'modal_awal' => $modalAwal,
+            'jenis_usaha_id' => $request->input('jenis_usaha_id'),
+            'tahun_berdiri' => $request->input('tahun_berdiri'),
+            'no_hp' => $request->input('no_hp'),
+            'tenaga_kerja' => $request->input('tenaga_kerja'),
+            'pembayaran_digital' => $request->has('pembayaran_digital') ? 1 : 0,
+            'long' => $request->input('lng'),
+            'lat' => $request->input('lat'),
+        ]);
+        
+        return redirect()->route('umkm.index')->with('success', 'Berhasil mengubah umkm');
     }
 
     /**
@@ -206,6 +227,24 @@ class UmkmController extends Controller
      */
     public function destroy(Umkm $umkm)
     {
-        //
+        $umkm->delete();
+        return redirect()->route('umkm.index')->with('success','Berhasil menghapus umkm');
+    }
+
+
+    public function fileHandler($file, $destinationPath, $prefix, $currentFile = null)
+    {
+        if ($file) {
+            $fileName = time() . '-' . rand(1, 100) . '-' . $prefix . '.' . $file->extension();
+
+            $file->move(public_path($destinationPath), $fileName);
+
+            if($currentFile){
+                unlink(public_path($destinationPath.'/'.$currentFile));
+            }
+
+            return $fileName;
+        }
+        return $currentFile;
     }
 }
