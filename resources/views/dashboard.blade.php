@@ -19,7 +19,7 @@
                             <div class="ps-3">
                                 <h6>{{ $jenisUsaha->count() ?? '0'}}</h6>
                                 <span class="text-warning small pt-1 fw-bold">Jumlah</span> <span
-                                    class="text-muted small pt-2 ps-1">Area</span>
+                                    class="text-muted small pt-2 ps-1">Jenis Usaha</span>
                             </div>
                         </div>
                     </div>
