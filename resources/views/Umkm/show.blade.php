@@ -26,11 +26,6 @@
                     <div class="col">{{ $umkm->name }}</div>
                 </div>
                 <div class="row justify-content-center align-items-center g-2 mb-2">
-                    <div class="col-5 col-sm-3">Nomor Induk Berusaha</div>
-                    <div class="col-auto">:</div>
-                    <div class="col">{{ $umkm->nib }}</div>
-                </div>
-                <div class="row justify-content-center align-items-center g-2 mb-2">
                     <div class="col-5 col-sm-3">Jenis Usaha</div>
                     <div class="col-auto">:</div>
                     <div class="col">{{ $umkm->jenis_usaha->name }}</div>
@@ -52,7 +47,7 @@
                     <div class="row justify-content-start align-items-center g-2 mb-2">
                         <div class="col-5 col-sm-3">Nomor Telepon</div>
                         <div class="col-auto">:</div>
-                        <div class="col-auto">@phone($umkm->no_hp)</div>
+                        <div class="col-auto">@phone($umkm->pemilik->no_hp)</div>
                     </div>
                     <div class="row justify-content-start align-items-center g-2 mb-2">
                         <div class="col-5 col-sm-3">Jumlah Tenaga Kerja</div>
@@ -185,7 +180,9 @@
                 </div>
             </div>
 
-            <a href="{{ route('umkm.edit', $umkm->id) }}" class="btn btn-warning text-white">Edit</a>
+            @if (Auth::user()->role === 'pemilik')
+                <a href="{{ route('umkm.edit', $umkm->id) }}" class="btn btn-warning text-white">Edit</a>
+            @endif
         </div>
     </div>
 @endsection
@@ -200,7 +197,7 @@
         }).addTo(map);
 
         var marker;
-        
+
         marker = L.marker([umkmData.lat, umkmData.long]).addTo(map);
 
 
@@ -209,7 +206,7 @@
             $('#pdfModal').click(function() {
                 var umkm = $(this).data('modal')
                 console.log(umkm.sku);
-                
+
                 $('#framePdf').attr('src', base + '/SKU/' + umkm.sku)
                 $('#skuModalTitle').text(
                     'Surat Keterangan Usaha Milik : ' + umkm.name

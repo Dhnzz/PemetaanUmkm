@@ -9,7 +9,8 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="card-title fw-bold text-uppercase">UMKM</h2>
+                <h2 class="card-title fw-bold text-uppercase">Pemilik</h2>
+                <a href="{{ route('pemilik.create') }}" class="btn btn-sm btn-success">Tambah Pemilik</a>
             </div>
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                 aria-label="breadcrumb">
@@ -22,7 +23,7 @@
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {{ $message }}
+                    {{$message}}
                 </div>
 
                 <script>
@@ -36,31 +37,28 @@
             <table id="dataTable" class="table table-sm">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Nama Pemilik</th>
-                        <th>Nama Usaha</th>
-                        <th>Foto Usaha</th>
-                        <th>Opsi</th>
+                        <th class="text-start">No</th>
+                        <th class="text-start">NIB</th>
+                        <th class="text-start">Nama</th>
+                        <th class="text-start">Nomor Telepon</th>
+                        <th class="text-start">Opsi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $no = 1;
                     @endphp
-                    @foreach ($umkm as $item)
+                    @foreach ($pemilik as $item)
                         <tr>
-                            <td>{{ $no }}</td>
-                            <td>{{ $item->pemilik->name }}</td>
-                            <td>{{ $item->name }}</td>
-                            <td>
-                                <img src="{{ asset('uploads') }}/FotoUsaha/{{ $item->foto_usaha }}" width="100px"
-                                    alt="">
-                            </td>
-                            <td>
+                            <td class="text-start">{{ $no++ }}</td>
+                            <td class="text-start">{{ $item->nib }}</td>
+                            <td class="text-start">{{ $item->name }}</td>
+                            <td class="text-start">{{ $item->no_hp }}</td>
+                            <td class="text-start">
                                 <div class="d-flex flex-row">
-                                    <a href="{{ route('umkm.show', $item->id) }}"
+                                    <a href="{{ route('pemilik.show', $item->id) }}"
                                         class="btn btn-sm btn-primary me-2">Detail</a>
-                                    <form method="POST" action="{{ route('umkm.destroy', $item->id) }}"
+                                    <form method="POST" action="{{ route('pemilik.destroy', $item->id) }}"
                                         enctype="multipart/form-data">
                                         @method('DELETE')
                                         @csrf

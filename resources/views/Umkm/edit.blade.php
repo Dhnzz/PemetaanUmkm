@@ -24,20 +24,14 @@
                 @csrf
                 <!-- NIB -->
                 <div class="mb-3">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ $umkm->pemilik->id }}" id="name" name="pemilik_id" hidden>
+                </div>
+                <div class="mb-3">
                     <label for="modal_awal" class="form-label">Nama Usaha</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                         value="{{ $umkm->name }}" id="name" name="name">
                     @error('name')
-                        <small class="invalid-feedback">
-                            {{ $message }}
-                        </small>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="modal_awal" class="form-label">Nomor Induk Berusaha</label>
-                    <input type="number" class="form-control @error('nib') is-invalid @enderror"
-                        value="{{ $umkm->nib }}" id="nib" name="nib">
-                    @error('nib')
                         <small class="invalid-feedback">
                             {{ $message }}
                         </small>
@@ -48,10 +42,11 @@
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="sku" class="form-label">File SKU (PDF, max 1 MB)</label>
                         <div class="input-group">
-                            <input type="file" class="form-control @error('sku') is-invalid @enderror" id="sku" name="sku" aria-label="Recipient's username"
-                                aria-describedby="basic-addon2">
-                            <button type="button" class="btn btn-primary btn-sm" id="pdfModal" {{ ($umkm->sku == null)?'disabled':'' }}
-                                data-modal="{{ json_encode($umkm) }}" data-bs-toggle="modal" data-bs-target="#modalId">
+                            <input type="file" class="form-control @error('sku') is-invalid @enderror" id="sku"
+                                name="sku" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <button type="button" class="btn btn-primary btn-sm" id="pdfModal"
+                                {{ $umkm->sku == null ? 'disabled' : '' }} data-modal="{{ json_encode($umkm) }}"
+                                data-bs-toggle="modal" data-bs-target="#modalId">
                                 Lihat SKU
                             </button>
                         </div>
@@ -65,11 +60,12 @@
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="foto_usaha" class="form-label">Foto Usaha (PNG, JPG, JPEG, max 2 MB)</label>
                         <div class="input-group">
-                            <input type="file" class="form-control @error('foto_usaha') is-invalid @enderror" id="foto_usaha"
-                                name="foto_usaha"aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            <button type="button" class="btn btn-primary btn-sm text-white" id="fotoUsahaModalButton" {{ ($umkm->foto_usaha == null)?'disabled':'' }}
-                                data-modal="{{ json_encode($umkm) }}" data-bs-toggle="modal"
-                                data-bs-target="#fotoUsahaModal">
+                            <input type="file" class="form-control @error('foto_usaha') is-invalid @enderror"
+                                id="foto_usaha" name="foto_usaha"aria-label="Recipient's username"
+                                aria-describedby="basic-addon2">
+                            <button type="button" class="btn btn-primary btn-sm text-white" id="fotoUsahaModalButton"
+                                {{ $umkm->foto_usaha == null ? 'disabled' : '' }} data-modal="{{ json_encode($umkm) }}"
+                                data-bs-toggle="modal" data-bs-target="#fotoUsahaModal">
                                 Lihat Foto
                             </button>
                         </div>
@@ -85,10 +81,11 @@
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="ktp" class="form-label">Fotokopi KTP (PNG, JPG, JPEG, max 2 MB)</label>
                         <div class="input-group">
-                            <input type="file" class="form-control @error('ktp') is-invalid @enderror" id="ktp" name="ktp"aria-label="Recipient's username"
-                                aria-describedby="basic-addon2">
-                            <button type="button" class="btn btn-primary btn-sm" id="ktpModalButton" {{ ($umkm->ktp == null)?'disabled':'' }}
-                                data-modal="{{ json_encode($umkm) }}" data-bs-toggle="modal" data-bs-target="#ktpModal">
+                            <input type="file" class="form-control @error('ktp') is-invalid @enderror" id="ktp"
+                                name="ktp"aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <button type="button" class="btn btn-primary btn-sm" id="ktpModalButton"
+                                {{ $umkm->ktp == null ? 'disabled' : '' }} data-modal="{{ json_encode($umkm) }}"
+                                data-bs-toggle="modal" data-bs-target="#ktpModal">
                                 Lihat KTP
                             </button>
                         </div>
@@ -102,10 +99,11 @@
                     <div class="col-12 col-sm-6 mb-3">
                         <label for="kk" class="form-label">Fotokopi Kartu Keluarga (PNG, JPG, JPEG, max 2 MB)</label>
                         <div class="input-group">
-                            <input type="file" class="form-control @error('kk') is-invalid @enderror" id="kk" name="kk"aria-label="Recipient's username"
-                                aria-describedby="basic-addon2">
-                            <button type="button" class="btn btn-primary btn-sm text-white" id="kkModalButton" {{ ($umkm->kk == null)?'disabled':'' }}
-                                data-modal="{{ json_encode($umkm) }}" data-bs-toggle="modal" data-bs-target="#kkModal">
+                            <input type="file" class="form-control @error('kk') is-invalid @enderror" id="kk"
+                                name="kk"aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <button type="button" class="btn btn-primary btn-sm text-white" id="kkModalButton"
+                                {{ $umkm->kk == null ? 'disabled' : '' }} data-modal="{{ json_encode($umkm) }}"
+                                data-bs-toggle="modal" data-bs-target="#kkModal">
                                 Lihat KK
                             </button>
                         </div>
@@ -120,7 +118,8 @@
                     <!-- Jenis Usaha -->
                     <div class="col-12 col-sm-9 mb-3">
                         <label for="jenis_usaha_id" class="form-label">Jenis Usaha</label>
-                        <select class="form-select @error('jenis_usaha_id') is-invalid @enderror" id="jenis_usaha_id" name="jenis_usaha_id">
+                        <select class="form-select @error('jenis_usaha_id') is-invalid @enderror" id="jenis_usaha_id"
+                            name="jenis_usaha_id">
                             <option value="">Pilih jenis usaha...</option>
                             @foreach ($jenisUsaha as $item)
                                 <option value="{{ $item->id }}"
@@ -147,25 +146,15 @@
                         </small>
                     @enderror
                 </div>
-                <!-- Modal Awal -->
-                <div class="mb-3">
-                    <label for="modal_awal" class="form-label">Modal Awal (min Rp1.000)</label>
-                    <input type="text" class="form-control @error('modal_awal') is-invalid @enderror"
-                        value="@currency($umkm->modal_awal)" id="modal_awal" name="modal_awal">
-                </div>
-                @error('modal_awal')
-                    <small class="invalid-feedback">
-                        {{ $message }}
-                    </small>
-                @enderror
+
                 <div class="row">
                     <!-- No HP -->
                     <div class="col-12 col-sm-6 mb-3">
-                        <label for="no_hp" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control @error('no_hp') is-invalid @enderror"
-                            value="{{ $umkm->no_hp }}" id="no_hp" name="no_hp">
+                        <label for="modal_awal" class="form-label">Modal Awal (min Rp1.000)</label>
+                        <input type="text" class="form-control @error('modal_awal') is-invalid @enderror"
+                            value="@currency($umkm->modal_awal)" id="modal_awal" name="modal_awal">
                     </div>
-                    @error('no_hp')
+                    @error('modal_awal')
                         <small class="invalid-feedback">
                             {{ $message }}
                         </small>
@@ -184,8 +173,9 @@
                 </div>
                 <!-- Pembayaran Digital -->
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input @error('pembayaran_digital') is-invalid @enderror" id="pembayaran_digital" name="pembayaran_digital"
-                        value="1" {{ $umkm->pembayaran_digital == 1 ? 'checked' : '' }}>
+                    <input type="checkbox" class="form-check-input @error('pembayaran_digital') is-invalid @enderror"
+                        id="pembayaran_digital" name="pembayaran_digital" value="1"
+                        {{ $umkm->pembayaran_digital == 1 ? 'checked' : '' }}>
                     <label class="form-check-label" for="pembayaran_digital">Menggunakan Pembayaran Digital</label>
                 </div>
                 <div class="col-12 mb-3">

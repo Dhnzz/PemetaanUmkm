@@ -14,7 +14,7 @@
                 aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('umkm.index') }}">{{ $title }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('umkm.indexPemilik', Auth::user()->pemilik->id) }}">{{ $title }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $subtitle }}</li>
                 </ol>
             </nav>
@@ -24,9 +24,8 @@
                 @csrf
                 <!-- NIB -->
                 <div class="mb-3">
-                    <label for="modal_awal" class="form-label">Nama Usaha</label>
                     <input type="text" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}" id="name" name="name">
+                        value="{{ $pemilik->id }}" id="name" name="pemilik_id" hidden>
                     @error('name')
                         <small class="invalid-feedback">
                             {{ $message }}
@@ -34,10 +33,10 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="modal_awal" class="form-label">Nomor Induk Berusaha</label>
-                    <input type="number" class="form-control @error('nib') is-invalid @enderror"
-                        value="{{ old('nib') }}" id="nib" name="nib">
-                    @error('nib')
+                    <label for="modal_awal" class="form-label">Nama Usaha</label>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                        value="{{ old('name') }}" id="name" name="name">
+                    @error('name')
                         <small class="invalid-feedback">
                             {{ $message }}
                         </small>

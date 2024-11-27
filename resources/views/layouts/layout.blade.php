@@ -68,14 +68,19 @@
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href=""
                         data-bs-toggle="dropdown">
                         <img src="{{ asset('assetsDashboard/img/default.png') }}" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">User</span>
+                        <span
+                            class="d-none d-md-block dropdown-toggle ps-2 text-capitalize">{{ Auth::user()->role }}</span>
                     </a>
                     <!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
                             <h6 class="text-capitalize">
-                                {{Auth::user()->name}}
+                                @if (Auth::user()->role === 'admin')
+                                    {{ Auth::user()->admin->name }}
+                                @elseif(Auth::user()->role === 'pemilik')
+                                    {{ Auth::user()->pemilik->name }}
+                                @endif
                             </h6>
                         </li>
                         <li>
@@ -83,11 +88,11 @@
                         </li>
 
                         <li>
-                            <form method="post" action="{{route('logout')}}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('logout') }}" enctype="multipart/form-data">
                                 @csrf
                                 <button type="submit" class="dropdown-item d-flex align-items-center">
                                     <i class="bi bi-box-arrow-right"></i>
-                                <span>Log Out</span>
+                                    <span>Log Out</span>
                                 </button>
                             </form>
                         </li>
@@ -117,20 +122,38 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('*/jenis-usaha*') ? 'active' : 'collapsed' }}"
-                    href="{{ route('jenis-usaha.index') }}">
-                    <i class="fa-solid fa-list"></i>
-                    <span>Jenis Usaha</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('*/umkm*') ? 'active' : 'collapsed' }}"
-                    href="{{ route('umkm.index') }}">
-                    <i class="fa-solid fa-shop"></i>
-                    <span>UMKM</span>
-                </a>
-            </li>
+            @if (Auth::user()->role === 'admin')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('*/jenis-usaha*') ? 'active' : 'collapsed' }}"
+                        href="{{ route('jenis-usaha.index') }}">
+                        <i class="fa-solid fa-list"></i>
+                        <span>Jenis Usaha</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('*/pemilik*') ? 'active' : 'collapsed' }}"
+                        href="{{ route('pemilik.index') }}">
+                    <i class="fa-solid fa-user"></i>
+                        <span>Pemilik Usaha</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('*/umkm*') ? 'active' : 'collapsed' }}"
+                        href="{{ route('umkm.index') }}">
+                        <i class="fa-solid fa-shop"></i>
+                        <span>UMKM</span>
+                    </a>
+                </li>
+            @elseif(Auth::user()->role === 'pemilik')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('*/umkm*') ? 'active' : 'collapsed' }}"
+                        href="{{ route('umkm.indexPemilik', Auth::user()->pemilik->id) }}">
+                        <i class="fa-solid fa-shop"></i>
+                        <span>UMKM</span>
+                    </a>
+                </li>
+            @endif
+
         </ul>
 
     </aside>

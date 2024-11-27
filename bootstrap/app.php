@@ -12,7 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'authCheck' => App\Http\Middleware\AuthCheck::class
+            'auth' => App\Http\Middleware\EnsureAuth::class,
+            'guest' => App\Http\Middleware\RedirectIfAuth::class,
+            'role' => App\Http\Middleware\CheckRole::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

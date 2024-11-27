@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo};
 class Umkm extends Model
 {
     protected $fillable = [
+        'pemilik_id',
         'name',
-        'nib',
         'sku', //File
         'ktp', //File
         'kk', //File
@@ -17,7 +17,6 @@ class Umkm extends Model
         'modal_awal',
         'jenis_usaha_id',
         'tahun_berdiri',
-        'no_hp',
         'tenaga_kerja',
         'pembayaran_digital',
         'long',
@@ -27,5 +26,10 @@ class Umkm extends Model
     public function jenis_usaha(): BelongsTo
     {
         return $this->belongsTo(JenisUsaha::class);
+    }
+
+    public function pemilik(): BelongsTo
+    {
+        return $this->belongsTo(Pemilik::class);
     }
 }

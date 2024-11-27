@@ -9,7 +9,8 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="card-title fw-bold text-uppercase">UMKM</h2>
+                <h2 class="card-title fw-bold text-uppercase">UMKM Milik : {{Auth::user()->pemilik->name}}</h2>
+                <a href="{{ route('umkm.create', Auth::user()->pemilik->id) }}" class="btn btn-sm btn-success">Tambah UMKM</a>
             </div>
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                 aria-label="breadcrumb">
@@ -22,7 +23,7 @@
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {{ $message }}
+                    {{$message}}
                 </div>
 
                 <script>
@@ -37,8 +38,8 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Pemilik</th>
-                        <th>Nama Usaha</th>
+                        <th>Nama</th>
+                        <th>Jenis Usaha</th>
                         <th>Foto Usaha</th>
                         <th>Opsi</th>
                     </tr>
@@ -50,11 +51,10 @@
                     @foreach ($umkm as $item)
                         <tr>
                             <td>{{ $no }}</td>
-                            <td>{{ $item->pemilik->name }}</td>
                             <td>{{ $item->name }}</td>
+                            <td>{{ $item->jenis_usaha->name }}</td>
                             <td>
-                                <img src="{{ asset('uploads') }}/FotoUsaha/{{ $item->foto_usaha }}" width="100px"
-                                    alt="">
+                                <img src="{{asset('uploads')}}/FotoUsaha/{{$item->foto_usaha}}" width="100px" alt="">
                             </td>
                             <td>
                                 <div class="d-flex flex-row">

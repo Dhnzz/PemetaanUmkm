@@ -13,7 +13,7 @@
     <div class="container d-flex align-item-center justify-content-center" style="height: 100vh; width:100%;">
         <div class="card w-50 my-auto mx-auto">
             <div class="card-body rounded">
-                <h3 class="text-center mb-5">Login Admin</h3>
+                <h3 class="text-center mb-5">Login</h3>
                 @if ($message = Session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
